@@ -106,9 +106,9 @@ public class RelationalValueConverterCompensatingExpressionVisitor : ExpressionV
         var orderings = new List<OrderingExpression>();
         foreach (var ordering in selectExpression.Orderings)
         {
-            var orderingExpression = (SqlExpression)Visit(ordering.Expression);
-            changed |= orderingExpression != ordering.Expression;
-            orderings.Add(ordering.Update(orderingExpression));
+            var newOrdering = new OrderingExpression(ordering.Expression, false);
+            changed = true;
+            orderings.Add(newOrdering);
         }
 
         var offset = (SqlExpression?)Visit(selectExpression.Offset);
